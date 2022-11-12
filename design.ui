@@ -1154,8 +1154,9 @@
      </font>
     </property>
     <property name="title">
-     <string>Справка</string>
+     <string>Помощь</string>
     </property>
+    <addaction name="actShowAbout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuAbout"/>
@@ -1183,6 +1184,11 @@
     <font>
      <pointsize>12</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="actShowAbout">
+   <property name="text">
+    <string>О программе</string>
    </property>
   </action>
  </widget>
