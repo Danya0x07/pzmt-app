@@ -6,21 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>675</height>
+    <width>709</width>
+    <height>528</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>950</width>
-    <height>675</height>
-   </size>
   </property>
   <property name="font">
    <font>
@@ -36,7 +30,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -46,18 +40,9 @@
      <pointsize>12</pointsize>
     </font>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_6">
+   <layout class="QVBoxLayout" name="verticalLayout_14">
     <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
-    </property>
-    <property name="leftMargin">
-     <number>8</number>
-    </property>
-    <property name="topMargin">
-     <number>4</number>
-    </property>
-    <property name="rightMargin">
-     <number>8</number>
+     <enum>QLayout::SetMaximumSize</enum>
     </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -69,10 +54,24 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QPlainTextEdit" name="txtFrequencies"/>
+           <widget class="QPlainTextEdit" name="txtFrequencies">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="txtDurations"/>
+           <widget class="QPlainTextEdit" name="txtDurations">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -175,7 +174,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 170, 0);</string>
+                   <string notr="true">color: rgb(255, 0, 127);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;C#&lt;span style=&quot; vertical-align:super;&quot;&gt;W&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -191,7 +190,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 170, 0);</string>
+                   <string notr="true">color: rgb(255, 0, 127);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;D#&lt;span style=&quot; vertical-align:super;&quot;&gt;E&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -223,7 +222,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 170, 0);</string>
+                   <string notr="true">color: rgb(255, 0, 127);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F#&lt;span style=&quot; vertical-align:super;&quot;&gt;T&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -262,8 +261,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>C&lt;sup&gt;A&lt;/sup&gt;</string>
@@ -279,8 +277,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;D&lt;span style=&quot; vertical-align:super;&quot;&gt;S&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -296,8 +293,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;E&lt;span style=&quot; vertical-align:super;&quot;&gt;D&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -313,8 +309,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;F&lt;span style=&quot; vertical-align:super;&quot;&gt;F&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -383,7 +378,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 170, 0);</string>
+                   <string notr="true">color: rgb(255, 0, 127);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;G#&lt;span style=&quot; vertical-align:super;&quot;&gt;I&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -399,7 +394,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 170, 0);</string>
+                   <string notr="true">color: rgb(255, 0, 127);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A#&lt;span style=&quot; vertical-align:super;&quot;&gt;O&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -451,8 +446,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;G&lt;span style=&quot; vertical-align:super;&quot;&gt;J&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -468,8 +462,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A&lt;span style=&quot; vertical-align:super;&quot;&gt;K&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -485,8 +478,7 @@
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 0);
-</string>
+                   <string notr="true">color: rgb(255, 0, 255);</string>
                   </property>
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;B&lt;span style=&quot; vertical-align:super;&quot;&gt;L&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -589,6 +581,12 @@
               </item>
               <item>
                <widget class="QPushButton" name="btnPlayFrequency">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
@@ -607,7 +605,7 @@
            <layout class="QHBoxLayout" name="horizontalLayout_5"/>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
              <widget class="QLabel" name="label_2">
               <property name="sizePolicy">
@@ -633,35 +631,39 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lnBeatMs">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="inputMask">
-               <string>00000</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>мс</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLineEdit" name="lnBeatMs">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="inputMask">
+                 <string>00000</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>мс</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
@@ -688,6 +690,13 @@
               </property>
               <property name="text">
                <string>Очистить</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnNoSound">
+              <property name="text">
+               <string>Остановить</string>
               </property>
              </widget>
             </item>
@@ -799,42 +808,39 @@
        </widget>
       </item>
       <item>
-       <widget class="QCommandLinkButton" name="btnNoSound">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Остановить</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>assets/noVolume.ico</normaloff>assets/noVolume.ico</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <widget class="QLCDNumber" name="lcdOutHz">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>138</width>
+            <height>54</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>138</width>
+            <height>54</height>
+           </size>
           </property>
           <property name="font">
            <font>
@@ -880,6 +886,9 @@
          <spacer name="horizontalSpacer_7">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -952,7 +961,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>950</width>
+     <width>709</width>
      <height>36</height>
     </rect>
    </property>
