@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>793</width>
-    <height>625</height>
+    <height>669</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -81,12 +81,26 @@
            <enum>QLayout::SetMinimumSize</enum>
           </property>
           <item>
+           <widget class="QLabel" name="lblTopTxtMeaning">
+            <property name="text">
+             <string>Частоты:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPlainTextEdit" name="txtFrequencies">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblBottomTxtMeaning">
+            <property name="text">
+             <string>Длительности:</string>
             </property>
            </widget>
           </item>
@@ -1076,28 +1090,35 @@
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QLabel" name="label_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
-             <string> Версия протокола</string>
+             <string>Порт:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="cbbProtocolVersion">
+           <widget class="QComboBox" name="cbbSerialPortName">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
             </property>
-            <item>
-             <property name="text">
-              <string>V1</string>
-             </property>
-            </item>
            </widget>
           </item>
          </layout>
