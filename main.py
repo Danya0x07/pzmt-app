@@ -2,10 +2,11 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from view_controller import ViewController
+from app import App
 
 print('На сообщения вида QTextCursor::setPosition: Position X out of range\n'
       'не обращаем внимание - это баг Qt')
 qApp = QApplication([])
-vc = ViewController(None)
+app = App()
+
 sys.exit(qApp.exec())
