@@ -12,7 +12,7 @@ class ViewController(QMainWindow):
         uic.loadUi('design.ui', self)
         self.app = app
         self.connect_signals()
-        self.lcdOutHz.display(0)
+        self.lnBeatMs.setEnabled(False)
         self.show()
 
     def connect_signals(self):
@@ -34,10 +34,14 @@ class ViewController(QMainWindow):
         self.actShowAbout.triggered.connect(self.__actShowAboutTriggered)
 
     def __rdInputHzClicked(self):
-        print("__rdInputHzClicked")
+        self.lnBeatMs.setEnabled(False)
+        self.lblTopTxtMeaning.setText("Частоты:")
+        self.lblBottomTxtMeaning.setText("Длительности:")
 
     def __rdInputNotesClicked(self):
-        print("__rdInputNotesClicked")
+        self.lnBeatMs.setEnabled(True)
+        self.lblTopTxtMeaning.setText("Ноты:")
+        self.lblBottomTxtMeaning.setText("Интервалы:")
 
     def __btnRefreshPortsClicked(self):
         self.app.update_available_ports()
