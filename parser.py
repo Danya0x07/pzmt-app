@@ -1,4 +1,7 @@
 # Модуль валидации вводимых данных
+
+import re
+
 NOTES = {
     'C': 132,
     'C#': 140,
@@ -16,31 +19,49 @@ NOTES = {
 
 
 def valid_frequency(frequency):
-    pass
+    return 0 <= frequency <= 20000
 
 
 def valid_duration(duration):
-    pass
+    return 0 <= duration <= 20000
 
 
 def valid_note(note):
-    pass
+    octave = note[0]
+    if not octave.isdigit():
+        return False
+    octave = int(octave)
+    if 3 <= octave <= 7 and note[1:] in NOTES:
+        return True
 
 
 def split_sequence(sequence):
-    pass
+    sequence = re.split(r'[\s\n]+', sequence)
+    for space in sequence:
+        if space == '':
+            sequence.remove('')
+    return sequence
 
 
 def parse_frequency(frequency):
-    pass
+    if not frequency.isnumeric():
+        return False
+    return 0 <= int(frequency) <= 20000
 
 
 def parse_duration(duration):
-    pass
+    if not duration.isnumeric():
+        return False
+    return 0 <= int(duration) <= 20000
 
 
 def note_to_frequency(note):
-    pass
+
+    if re.search(r'\d+', note) is not None:
+        return False
+    note = note.upper()
+    if note in NOTES:
+        return NOTES[note]
 
 
 
