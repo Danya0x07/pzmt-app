@@ -33,22 +33,55 @@ class MyTestCase(unittest.TestCase):
                          ['200', '23', '434', '578', '4342', '4324'])
 
     def test_parse_frequency(self):
-        self.assertFalse(p.parse_frequency('20DE0'))
-        self.assertFalse(p.parse_frequency('-200'))
-        self.assertFalse(p.parse_frequency('30000'))
-        self.assertFalse(p.parse_frequency('ewre'))
-        self.assertTrue(p.parse_frequency('0'))
-        self.assertTrue(p.parse_frequency('1000'))
+        success, result = p.parse_frequency('20DE0')
+        self.assertFalse(success)
+        self.assertEqual(result, 0)
+
+        success, result = p.parse_frequency('ewre')
+        self.assertFalse(success)
+        self.assertEqual(result, 0)
+
+        success, result = p.parse_frequency('0')
+        self.assertTrue(success)
+        self.assertEqual(result, 0)
+
+        success, result = p.parse_frequency('1000')
+        self.assertTrue(success)
+        self.assertEqual(result, 1000)
+
+        success, result = p.parse_frequency('30000')
+        self.assertTrue(success)
+        self.assertEqual(result, 30000)
+
+        success, result = p.parse_frequency('-200')
+        self.assertTrue(success)
+        self.assertEqual(result, -200)
 
 
     def test_parse_duration(self):
-        self.assertFalse(p.parse_duration('20DE0'))
-        self.assertFalse(p.parse_duration('-200'))
-        self.assertFalse(p.parse_duration('30000'))
-        self.assertFalse(p.parse_duration('ewre'))
-        self.assertTrue(p.parse_duration('0'))
-        self.assertTrue(p.parse_duration('1000'))
+        success, result = p.parse_duration('20DE0')
+        self.assertFalse(success)
+        self.assertEqual(result, 0)
 
+        success, result = p.parse_duration('ewre')
+        self.assertFalse(success)
+        self.assertEqual(result, 0)
+
+        success, result = p.parse_duration('0')
+        self.assertTrue(success)
+        self.assertEqual(result, 0)
+
+        success, result = p.parse_duration('1000')
+        self.assertTrue(success)
+        self.assertEqual(result, 1000)
+
+        success, result = p.parse_duration('30000')
+        self.assertTrue(success)
+        self.assertEqual(result, 30000)
+
+        success, result = p.parse_duration('-200')
+        self.assertTrue(success)
+        self.assertEqual(result, -200)
 
     def test_note_to_frequency(self):
         self.assertFalse(p.note_to_frequency('100'))
