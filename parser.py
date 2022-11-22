@@ -44,15 +44,25 @@ def split_sequence(sequence):
 
 
 def parse_frequency(frequency):
+    if frequency[0] == '-':
+        frequency = frequency[1:]
+        if frequency.isnumeric():
+            frequency = '-' + str(frequency)
+            return True, int(frequency)
     if not frequency.isnumeric():
-        return False
-    return 0 <= int(frequency) <= 20000
+        return False, 0
+    return True, int(frequency)
 
 
 def parse_duration(duration):
+    if duration[0] == '-':
+        duration = duration[1:]
+        if duration.isnumeric():
+            duration = '-' + str(duration)
+            return True, int(duration)
     if not duration.isnumeric():
-        return False
-    return 0 <= int(duration) <= 20000
+        return False, 0
+    return True, int(duration)
 
 
 def note_to_frequency(note):
