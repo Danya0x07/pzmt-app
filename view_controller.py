@@ -87,11 +87,14 @@ class ViewController(QMainWindow):
         print("__actShowAboutTriggered")
 
     def set_status_msg(self, msg):
-        self.statusBar().showMessage(msg)
+        self.statusBar().showMessage(msg, 1500)
 
     def set_available_ports_list(self, port_names):
         self.cbbSerialPortName.clear()
         self.cbbSerialPortName.addItems(port_names)
+
+    def set_current_frequency(self, frequency):
+        self.lcdOutHz.display(frequency)
 
     def get_selected_port_name(self):
         return self.cbbSerialPortName.currentText()

@@ -36,6 +36,7 @@ class App:
     def reset_melody(self):
         self.__melody = zip()
         self.__playing = False
+        self.__last_frequency_played = 0
 
     def process_packet(self):
         status, reply = self.serial.read()
@@ -49,13 +50,17 @@ class App:
             elif reply_code == ReplyCode.READY:
                 if self.__playing:
                     try:
-                        success, command = protocol.build_command(CommandType.PLAY_FINITE_TONE, next(self.__melody))
+                        frequency, duration = next(self.__melody)
+                        success, command = protocol.build_command(CommandType.PLAY_FINITE_TONE, (frequency, duration))
                         if success:
                             self.serial.write(command)
+                            self.vc.set_current_frequency(self.__last_frequency_played)
+                            self.__last_frequency_played = frequency
                         else:
                             self.vc.set_status_msg("Привет, меня зовут БАГ#2!")
                     except StopIteration:
-                        self.__playing = False
+                        self.vc.set_current_frequency(self.__last_frequency_played)
+                        self.reset_melody()
             elif reply_code == ReplyCode.BUSY:
                 self.vc.set_status_msg("Пьезоколонка подавилась, сворачиваем тусу")
                 self.reset_melody()
@@ -78,6 +83,7 @@ class App:
                 success, cmd = protocol.build_command(CommandType.PLAY_INFINITE_TONE, frequency)
                 if success:
                     self.serial.write(cmd)
+                    self.vc.set_current_frequency(frequency)
                 else:
                     self.vc.set_status_msg("Привет, меня зовут БАГ#1!")
             else:
@@ -108,7 +114,7 @@ class App:
             else:
                 self.vc.set_status_msg("Не похоже на длительность: {}".format(f[:8]))
                 return
-        self.play(frequencies, durations)
+        self.start_playing(frequencies, durations)
 
     def play_notes(self):
         frequencies = []
@@ -137,9 +143,9 @@ class App:
             else:
                 self.vc.set_status_msg("Не похоже на длительность: {}".format(i[:8]))
                 return
-        self.play(frequencies, durations)
+        self.start_playing(frequencies, durations)
 
-    def play(self, frequencies, durations):
+    def start_playing(self, frequencies, durations):
         if not self.connection_established():
             self.vc.set_status_msg("Куда слать то? Порт закрыт...")
             return
@@ -157,6 +163,8 @@ class App:
         if success:
             self.__playing = True
             self.serial.write(command)
+            #self.vc.set_current_frequency(frequencies[0])
+            self.__last_frequency_played = frequencies[0]
         else:
             self.vc.set_status_msg("Привет, меня зовут БАГ#3!")
 
@@ -165,5 +173,6 @@ class App:
         success, command = protocol.build_command(CommandType.STOP_PLAYING)
         if success:
             self.serial.write(command)
+            self.vc.set_current_frequency(0)
         else:
             self.vc.set_status_msg("Привет, меня зовут БАГ#4!")
