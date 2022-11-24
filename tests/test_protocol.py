@@ -59,36 +59,25 @@ class MyTestCase(unittest.TestCase):
         result = p.build_command(3, 1)
         self.assertEqual(result, 'V\n')
 
+    def test_parse_reply(self):
 
-def test_build_command(self):
+        result = p.parse_reply('0\n')
+        self.assertEqual(result, p.ReplyCode.WRONG_CMD)
 
-    result = p.parse_reply('0/n')
-    self.assertEqual(result, p.ReplyCode.WRONG_CMD)
+        result = p.parse_reply('1\n')
+        self.assertEqual(result, p.ReplyCode.OK)
 
-    result = p.parse_reply('1/n')
-    self.assertEqual(result, p.ReplyCode.OK)
+        result = p.parse_reply('2\n')
+        self.assertEqual(result, p.ReplyCode.READY)
 
-    result = p.parse_reply('2/n')
-    self.assertEqual(result, p.ReplyCode.READY)
+        result = p.parse_reply('3\n')
+        self.assertEqual(result, p.ReplyCode.BUSY)
 
-    result = p.parse_reply('3/n')
-    self.assertEqual(result, p.ReplyCode.BUSY)
+        result = p.parse_reply('30\n')
+        self.assertEqual(result, p.ReplyCode.UNRECOGNIZABLE)
 
-    result = p.parse_reply('30/n')
-    self.assertEqual(result, p.ReplyCode.UNRECOGNIZABLE)
-
-    result = p.parse_reply('f30/n')
-    self.assertEqual(result, p.ReplyCode.UNRECOGNIZABLE)
-
-
-
-
-
-
-
-
-
-
+        result = p.parse_reply('f30\n')
+        self.assertEqual(result, p.ReplyCode.UNRECOGNIZABLE)
 
 
 if __name__ == '__main__':
