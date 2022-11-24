@@ -61,7 +61,7 @@ class App:
                 self.reset_melody()
             else:  # UNRECOGNIZABLE или приветственное сообщение
                 self.vc.set_status_msg("Пьезоколонка что-то говорит")
-                print(reply)
+                print(reply, end='')
                 self.reset_melody()
         elif status == SerialPort.ErrorStatus.DECODING_ERROR:
             self.vc.set_status_msg("Пьезоколонку штырит походу")
@@ -157,3 +157,13 @@ class App:
         if success:
             self.__playing = True
             self.serial.write(command)
+        else:
+            self.vc.set_status_msg("Привет, меня зовут БАГ#3!")
+
+    def stop_playing(self):
+        self.reset_melody()
+        success, command = protocol.build_command(CommandType.STOP_PLAYING)
+        if success:
+            self.serial.write(command)
+        else:
+            self.vc.set_status_msg("Привет, меня зовут БАГ#4!")
