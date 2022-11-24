@@ -1,62 +1,54 @@
 import unittest
 import protocol as p
+from protocol import VolumeLevel, CommandType, ReplyCode
 
 
 
 class MyTestCase(unittest.TestCase):
     def test_build_command(self):
 
-        success, result = p.build_command(0, (1, 1000))
+        success, result = p.build_command(CommandType.STOP_PLAYING, (1, 1000))
         self.assertFalse(success)
         self.assertEqual(result, '0\n')
 
-        success, result = p.build_command(0, (0, -1000))
-        self.assertFalse(success)
-        self.assertEqual(result, '0\n')
-
-        success, result = p.build_command(0, (1, -1000))
-        self.assertFalse(success)
-        self.assertEqual(result, '0\n')
-
-        success, result = p.build_command(0, None)
+        success, result = p.build_command(CommandType.STOP_PLAYING)
         self.assertTrue(success)
         self.assertEqual(result, '0\n')
 
-        success, result = p.build_command(0, (0, 1000))
+        success, result = p.build_command(CommandType.PLAY_FINITE_TONE)
+        self.assertFalse(success)
+        self.assertEqual(result, '0\n')
+
+        success, result = p.build_command(CommandType.PLAY_FINITE_TONE, (0, 500))
         self.assertTrue(success)
-        self.assertEqual(result, '0,1000\n')
+        self.assertEqual(result, '0,500\n')
 
-        success, result = p.build_command(1, (0, 0))
-        self.assertFalse(success)
-        self.assertEqual(result, '0\n')
+        success, result = p.build_command(CommandType.PLAY_FINITE_TONE, (400, 0))
+        self.assertTrue(success)
+        self.assertEqual(result, '400,0\n')
 
-        success, result = p.build_command(1, (0, 10))
-        self.assertFalse(success)
-        self.assertEqual(result, '0\n')
-
-        success, result = p.build_command(1, (10, 0))
-        self.assertFalse(success)
-        self.assertEqual(result, '0\n')
-
-        success, result = p.build_command(1, (1000, 1000))
+        success, result = p.build_command(CommandType.PLAY_FINITE_TONE, (1000, 1000))
         self.assertTrue(success)
         self.assertEqual(result, '1000,1000\n')
 
-        success, result = p.build_command(2, (0, 10))
+        success, result = p.build_command(CommandType.PLAY_INFINITE_TONE, (0, 10))
         self.assertFalse(success)
         self.assertEqual(result, '0\n')
 
-        success, result = p.build_command(2, (100, 0))
+        success, result = p.build_command(CommandType.PLAY_INFINITE_TONE, 600)
         self.assertTrue(success)
-        self.assertEqual(result, '100,0\n')
+        self.assertEqual(result, '600\n')
 
-        result = p.build_command(3, (100, 0))
-        self.assertEqual(result, None)
+        success, result = p.build_command(CommandType.SET_VOLUME, (100, 0))
+        self.assertFalse(success)
+        self.assertEqual(result, '0\n')
 
-        result = p.build_command(3, 0)
+        success, result = p.build_command(CommandType.SET_VOLUME, VolumeLevel.LOW)
+        self.assertTrue(success)
         self.assertEqual(result, 'v\n')
 
-        result = p.build_command(3, 1)
+        success, result = p.build_command(CommandType.SET_VOLUME, VolumeLevel.HIGH)
+        self.assertTrue(success)
         self.assertEqual(result, 'V\n')
 
     def test_parse_reply(self):

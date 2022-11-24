@@ -21,34 +21,35 @@ class VolumeLevel(IntEnum):
     LOW = 0
 
 
-def build_command(cmdtype, arg):
-    if CommandType.STOP_PLAYING == cmdtype:
-        if arg == None:
-            return True, '0\n'
-        elif arg[0] == 0 and (0 < arg[1] <= 20000):
-            return True, str(arg[0]) + ',' + str(arg[1]) + '\n'
-        else:
-            return False, '0\n'
-    if CommandType.PLAY_FINITE_TONE == cmdtype:
-        if 0 < (arg[0] and arg[1]) <= 20000:
-            return True, str(arg[0]) + ',' + str(arg[1]) + '\n'
-        else:
-            return False, '0\n'
-    if CommandType.PLAY_INFINITE_TONE == cmdtype:
-        if(0 < arg[0] <= 20000) and arg[1] == 0:
-            return True, str(arg[0]) + ',' + str(arg[1]) + '\n'
-        else:
-            return False, '0\n'
-    if CommandType.SET_VOLUME == cmdtype:
-        if VolumeLevel.HIGH == arg:
-            return 'V\n'
-        if VolumeLevel.LOW == arg:
-            return 'v\n'
+def build_command(cmdtype, arg=None):
+    if cmdtype == CommandType.STOP_PLAYING and arg is None:
+        return True, '0\n'
+
+    if cmdtype == CommandType.PLAY_FINITE_TONE and type(arg) == tuple\
+            and len(arg) == 2 and type(arg[0]) == int and type(arg[1]) == int:
+        return True, '{},{}\n'.format(arg[0], arg[1])
+
+    if cmdtype == CommandType.PLAY_INFINITE_TONE and type(arg) == int:
+        return True, str(arg) + '\n'
+
+    if cmdtype == CommandType.SET_VOLUME and type(arg) == VolumeLevel:
+        if arg == VolumeLevel.HIGH:
+            return True, 'V\n'
+        if arg == VolumeLevel.LOW:
+            return True, 'v\n'
+
+    return False, '0\n'
 
 
 def parse_reply(reply):
-    reply = reply[:-1]
-    if reply.isnumeric() and (0 <= int(reply) <= 3):
-        return int(reply)
-    else:
+    if len(reply) < 2 and reply[-1] != '\n':
         return ReplyCode.UNRECOGNIZABLE
+
+    reply = reply[:-1]
+    try:
+        reply = int(reply)
+        reply_code = ReplyCode(reply)
+    except ValueError:
+        return ReplyCode.UNRECOGNIZABLE
+    else:
+        return reply_code

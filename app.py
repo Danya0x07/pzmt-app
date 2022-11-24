@@ -1,5 +1,8 @@
 from view_controller import ViewController
 from serial_port import SerialPort
+import parser
+import protocol
+from protocol import CommandType, ReplyCode
 
 
 class App:
@@ -31,3 +34,18 @@ class App:
 
     def process_packet(self):
         pass
+
+    def play_frequency(self):
+        frequency = self.vc.get_frequency()
+        if self.connection_established():
+            if parser.valid_frequency(frequency):
+                success, cmd = protocol.build_command(CommandType.PLAY_INFINITE_TONE, frequency)
+                print(success, cmd)
+                if success:
+                    self.serial.write(cmd)
+                else:
+                    self.vc.set_status_msg("Привет, меня зовут БАГ#1!")
+            else:
+                self.vc.set_status_msg("Введённая частота не поддерживается")
+        else:
+            self.vc.set_status_msg("Куда слать то? Порт закрыт...")

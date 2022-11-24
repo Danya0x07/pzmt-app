@@ -57,13 +57,16 @@ class ViewController(QMainWindow):
                 self.btnConnect.setText("Отключить")
 
     def __btnPlayFrequencyClicked(self):
-        print("__btnPlayFrequencyClicked")
+        self.app.play_frequency()
 
     def __btnNoSoundClicked(self):
-        print("__btnNoSoundClicked")
+        self.app.stop_playing()
 
     def __btnPlayMelodyClicked(self):
-        print("__btnPlayMelodyClicked")
+        if self.rdInputNotes.isChecked():
+            self.app.play_notes()
+        else:
+            self.app.play_frequencies()
 
     def __btnRecordKeysClicked(self):
         print("__btnRecordKeysClicked")
@@ -83,9 +86,6 @@ class ViewController(QMainWindow):
     def __actShowAboutTriggered(self):
         print("__actShowAboutTriggered")
 
-    def __cbbSerialPortNameActivated(self):
-        print("__cbbSerialPortNameActivated")
-
     def set_status_msg(self, msg):
         self.statusBar().showMessage(msg)
 
@@ -95,3 +95,13 @@ class ViewController(QMainWindow):
 
     def get_selected_port_name(self):
         return self.cbbSerialPortName.currentText()
+
+    def get_frequency(self):
+        txt_frequency = self.lnFrequency.text()
+        return int(txt_frequency) if txt_frequency.isnumeric() else 0
+
+    def get_raw_frequencies(self):
+        return self.txtFrequencies.toPlainText()
+
+    def get_raw_durations(self):
+        return self.txtDurations.toPlainText()
