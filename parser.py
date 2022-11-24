@@ -26,6 +26,10 @@ def valid_duration(duration):
     return 0 <= duration <= 20000
 
 
+def valid_interval(interval):
+    return 1 <= interval <= 1024
+
+
 def valid_note(note):
     octave = note[0]
     if not octave.isdigit():
@@ -66,12 +70,10 @@ def parse_duration(duration):
 
 
 def note_to_frequency(note):
-
-    if re.search(r'\d+', note) is not None:
-        return False
-    note = note.upper()
+    octave = int(note[0])
+    note = note[1:].upper()
     if note in NOTES:
-        return NOTES[note]
+        return NOTES[note] * 2**(octave - 3)
 
 
 

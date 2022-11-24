@@ -105,3 +105,7 @@ class ViewController(QMainWindow):
 
     def get_raw_durations(self):
         return self.txtDurations.toPlainText()
+
+    def get_beat(self):
+        txt_beat = self.lnBeatMs.text()
+        return int(txt_beat) if txt_beat.isnumeric() else 0

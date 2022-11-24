@@ -15,6 +15,12 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(p.valid_duration(0))
         self.assertTrue(p.valid_duration(1000))
 
+    def test_valid_interval(self):
+        self.assertFalse(p.valid_interval(0))
+        self.assertFalse(p.valid_interval(2000))
+        self.assertTrue(p.valid_interval(1))
+        self.assertTrue(p.valid_interval(16))
+
     def test_valid_note(self):
         self.assertFalse(p.valid_note('qqqq'))
         self.assertFalse(p.valid_note('9B'))
@@ -84,18 +90,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(result, -200)
 
     def test_note_to_frequency(self):
-        self.assertFalse(p.note_to_frequency('100'))
-        self.assertFalse(p.note_to_frequency('3D'))
-        self.assertFalse(p.note_to_frequency('j#'))
-        self.assertTrue(p.note_to_frequency("f#"))
-        self.assertTrue(p.note_to_frequency('D'))
-
-
-
-
-
-
-
+        for i in range(3, 8):
+            for note in p.NOTES.keys():
+                self.assertEqual(p.note_to_frequency(str(i) + note), p.NOTES[note] * 2**(i - 3))
 
 
 if __name__ == '__main__':

@@ -86,10 +86,6 @@ class App:
             self.vc.set_status_msg("Куда слать то? Порт закрыт...")
 
     def play_frequencies(self):
-        if not self.connection_established():
-            self.vc.set_status_msg("Куда слать то? Порт закрыт...")
-            return
-
         frequencies = []
         durations = []
 
@@ -97,19 +93,56 @@ class App:
         raw_frequencies = parser.split_sequence(raw_frequencies)
         for f in raw_frequencies:
             success, frequency = parser.parse_frequency(f)
-            if not success or not parser.valid_frequency(frequency):
+            if success and parser.valid_frequency(frequency):
+                frequencies.append(frequency)
+            else:
                 self.vc.set_status_msg("Не похоже на частоту: {}".format(f[:8]))
                 return
-            frequencies.append(frequency)
 
         raw_durations = self.vc.get_raw_durations()
         raw_durations = parser.split_sequence(raw_durations)
         for f in raw_durations:
             success, duration = parser.parse_duration(f)
-            if not success or not parser.valid_duration(duration):
+            if success and parser.valid_duration(duration):
+                durations.append(duration)
+            else:
                 self.vc.set_status_msg("Не похоже на длительность: {}".format(f[:8]))
                 return
-            durations.append(duration)
+        self.play(frequencies, durations)
+
+    def play_notes(self):
+        frequencies = []
+        durations = []
+
+        raw_notes = self.vc.get_raw_frequencies()
+        raw_notes = parser.split_sequence(raw_notes)
+        for n in raw_notes:
+            if parser.valid_note(n):
+                frequencies.append(parser.note_to_frequency(n))
+            else:
+                self.vc.set_status_msg("Не похоже на допустимую ноту: {}".format(n[:8]))
+                return
+
+        beat_duration = self.vc.get_beat()
+        if beat_duration == 0 or beat_duration > 20000:
+            self.vc.set_status_msg("Необходимо указать допустимую длительность такта")
+            return
+
+        raw_intervals = self.vc.get_raw_durations()
+        raw_intervals = parser.split_sequence(raw_intervals)
+        for i in raw_intervals:
+            success, interval = parser.parse_duration(i)
+            if success and parser.valid_interval(interval):
+                durations.append(beat_duration // interval)
+            else:
+                self.vc.set_status_msg("Не похоже на длительность: {}".format(i[:8]))
+                return
+        self.play(frequencies, durations)
+
+    def play(self, frequencies, durations):
+        if not self.connection_established():
+            self.vc.set_status_msg("Куда слать то? Порт закрыт...")
+            return
 
         lf, ld = len(frequencies), len(durations)
         if lf != ld:
@@ -124,4 +157,3 @@ class App:
         if success:
             self.__playing = True
             self.serial.write(command)
-
