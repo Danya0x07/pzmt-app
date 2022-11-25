@@ -1,6 +1,7 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 
 class ViewController(QMainWindow):
@@ -16,6 +17,7 @@ class ViewController(QMainWindow):
         uic.loadUi('design.ui', self)
         self.app = app
         self.__keys_stack = []
+        self.__record_enabled = False
         self.connect_signals()
         self.lnBeatMs.setEnabled(False)
         self.show()
@@ -74,13 +76,25 @@ class ViewController(QMainWindow):
             self.app.play_frequencies()
 
     def __btnRecordKeysClicked(self):
-        print("__btnRecordKeysClicked")
+        if not self.chbEnableKeyboard.checkState():
+            self.set_status_msg('Клавиатура не включена')
+            return
+
+        self.__record_enabled = not self.__record_enabled
+        if self.__record_enabled:
+            self.btnRecordKeys.setText('Стоп')
+            self.btnRecordKeys.setIcon(QIcon('assets/stopRec.ico'))
+        else:
+            self.btnRecordKeys.setText('Запись')
+            self.btnRecordKeys.setIcon(QIcon('assets/rec.ico'))
 
     def __btnVolumeSwitchClicked(self):
         print("__btnVolumeSwitchClicked")
 
     def __chbEnableKeyboardStateChanged(self):
-        print("__chbEnableKeyboardStateChanged")
+        self.__record_enabled = False
+        self.btnRecordKeys.setText('Запись')
+        self.btnRecordKeys.setIcon(QIcon('assets/rec.ico'))
 
     def __actOpenFileTriggered(self):
         print("__actOpenFileTriggered")
@@ -96,12 +110,17 @@ class ViewController(QMainWindow):
         key = event.key()
         if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState():
             if key in ViewController.KEYBOARD:
-                self.app.play_note(str(self.spbOctave.value()) + ViewController.KEYBOARD[key])
+                note = str(self.spbOctave.value()) + ViewController.KEYBOARD[key]
+                self.app.play_note(note)
                 self.__keys_stack.append(key)
+                if self.__record_enabled:
+                    self.app.record(note, self.rdInputHz.isChecked())
             elif key == Qt.Key_G:
                 self.spbOctave.setValue(self.spbOctave.value() - 1)
             elif key == Qt.Key_H:
                 self.spbOctave.setValue(self.spbOctave.value() + 1)
+            elif key == Qt.Key_Backspace and self.__record_enabled:
+                self.app.remove_last_recorded()
 
     def keyReleaseEvent(self, event):
         super().keyPressEvent(event)
@@ -121,6 +140,9 @@ class ViewController(QMainWindow):
 
     def set_current_frequency(self, frequency):
         self.lcdOutHz.display(frequency)
+
+    def set_raw_frequencies(self, txt):
+        self.txtFrequencies.setPlainText(txt)
 
     def get_selected_port_name(self):
         return self.cbbSerialPortName.currentText()

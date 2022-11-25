@@ -181,3 +181,17 @@ class App:
             self.vc.set_current_frequency(0)
         else:
             self.vc.set_status_msg("Привет, меня зовут БАГ#4!")
+
+    def record(self, note, convert: bool):
+        to_record = parser.note_to_frequency(note) if convert else note
+        txt = self.vc.get_raw_frequencies()
+        self.vc.set_raw_frequencies(txt + ' {}'.format(to_record))
+
+    def remove_last_recorded(self):
+        txt = self.vc.get_raw_frequencies()
+        sequence = parser.split_sequence(txt)
+        if sequence:
+            sequence.pop()
+        self.vc.set_raw_frequencies(' '.join(sequence))
+
+
