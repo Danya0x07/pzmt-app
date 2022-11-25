@@ -9,7 +9,7 @@ class ViewController(QMainWindow):
     Предназначен для взаимодействия с пользователем и с Qt.
     """
     KEYBOARD = {Qt.Key_A: 'C', Qt.Key_W: 'C#', Qt.Key_S: 'D', Qt.Key_E: 'D#', Qt.Key_D: 'E',
-                Qt.Key_F: 'F', Qt.Key_T: 'F#',
+                Qt.Key_F: 'F', Qt.Key_T: 'F#', Qt.Key_Space: '_',
                 Qt.Key_J: 'G', Qt.Key_I: 'G#', Qt.Key_K: 'A', Qt.Key_O: 'A#', Qt.Key_L: 'B'}
 
     def __init__(self, app):
@@ -87,6 +87,7 @@ class ViewController(QMainWindow):
         else:
             self.btnRecordKeys.setText('Запись')
             self.btnRecordKeys.setIcon(QIcon('assets/rec.ico'))
+        self.setFocus()
 
     def __btnVolumeSwitchClicked(self):
         print("__btnVolumeSwitchClicked")
@@ -95,6 +96,7 @@ class ViewController(QMainWindow):
         self.__record_enabled = False
         self.btnRecordKeys.setText('Запись')
         self.btnRecordKeys.setIcon(QIcon('assets/rec.ico'))
+        self.setFocus()
 
     def __actOpenFileTriggered(self):
         print("__actOpenFileTriggered")
@@ -110,7 +112,7 @@ class ViewController(QMainWindow):
         key = event.key()
         if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState():
             if key in ViewController.KEYBOARD:
-                note = str(self.spbOctave.value()) + ViewController.KEYBOARD[key]
+                note = str(self.spbOctave.value()) * (key != Qt.Key_Space) + ViewController.KEYBOARD[key]
                 self.app.play_note(note)
                 self.__keys_stack.append(key)
                 if self.__record_enabled:

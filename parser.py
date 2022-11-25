@@ -3,6 +3,7 @@
 import re
 
 NOTES = {
+    '_': 0,
     'C': 132,
     'C#': 140,
     'D': 148,
@@ -31,6 +32,8 @@ def valid_interval(interval):
 
 
 def valid_note(note):
+    if note == '_':
+        return True
     octave = note[0]
     if not octave.isdigit():
         return False
@@ -70,6 +73,8 @@ def parse_duration(duration):
 
 
 def note_to_frequency(note):
+    if note == '_':
+        return 0
     octave = int(note[0])
     note = note[1:].upper()
     if note in NOTES:
