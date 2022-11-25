@@ -75,8 +75,9 @@ class App:
             self.vc.set_status_msg("Пьезоколонка недоговаривает")
             self.reset_melody()
 
-    def play_frequency(self):
-        frequency = self.vc.get_frequency()
+    def play_frequency(self, frequency=None):
+        if frequency is None:
+            frequency = self.vc.get_frequency()
         if self.connection_established():
             if parser.valid_frequency(frequency):
                 self.reset_melody()
@@ -115,6 +116,10 @@ class App:
                 self.vc.set_status_msg("Не похоже на длительность: {}".format(f[:8]))
                 return
         self.start_playing(frequencies, durations)
+
+    def play_note(self, note):
+        frequency = parser.note_to_frequency(note)
+        self.play_frequency(frequency)
 
     def play_notes(self):
         frequencies = []

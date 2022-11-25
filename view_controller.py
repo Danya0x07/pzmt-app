@@ -1,16 +1,21 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import Qt
 
 
 class ViewController(QMainWindow):
     """Класс визуального представления приложения.
     Предназначен для взаимодействия с пользователем и с Qt.
     """
+    KEYBOARD = {Qt.Key_A: 'C', Qt.Key_W: 'C#', Qt.Key_S: 'D', Qt.Key_E: 'D#', Qt.Key_D: 'E',
+                Qt.Key_F: 'F', Qt.Key_T: 'F#',
+                Qt.Key_J: 'G', Qt.Key_I: 'G#', Qt.Key_K: 'A', Qt.Key_O: 'A#', Qt.Key_L: 'B'}
 
     def __init__(self, app):
         super().__init__()
         uic.loadUi('design.ui', self)
         self.app = app
+        self.__keys_stack = []
         self.connect_signals()
         self.lnBeatMs.setEnabled(False)
         self.show()
@@ -85,6 +90,27 @@ class ViewController(QMainWindow):
 
     def __actShowAboutTriggered(self):
         print("__actShowAboutTriggered")
+
+    def keyPressEvent(self, event):
+        super().keyPressEvent(event)
+        key = event.key()
+        if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState():
+            if key in ViewController.KEYBOARD:
+                self.app.play_note(str(self.spbOctave.value()) + ViewController.KEYBOARD[key])
+                self.__keys_stack.append(key)
+            elif key == Qt.Key_G:
+                self.spbOctave.setValue(self.spbOctave.value() - 1)
+            elif key == Qt.Key_H:
+                self.spbOctave.setValue(self.spbOctave.value() + 1)
+
+    def keyReleaseEvent(self, event):
+        super().keyPressEvent(event)
+        key = event.key()
+        if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState() and key in ViewController.KEYBOARD:
+            if self.__keys_stack:
+                self.__keys_stack.pop()
+                if len(self.__keys_stack) == 0:
+                    self.app.stop_playing()
 
     def set_status_msg(self, msg):
         self.statusBar().showMessage(msg, 1500)
