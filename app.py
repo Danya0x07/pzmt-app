@@ -11,6 +11,7 @@ class App:
         self.vc = ViewController(self)
         self.serial = SerialPort(self)
         self.reset_melody()
+        self.__ready_for_next_frequency = True
 
     def update_available_ports(self):
         self.vc.set_available_ports_list(SerialPort.get_available_ports())
@@ -46,7 +47,7 @@ class App:
                 self.vc.set_status_msg("Пьезоколонка нас не понимает")
                 self.reset_melody()
             elif reply_code == ReplyCode.OK:
-                pass
+                self.__ready_for_next_frequency = True
             elif reply_code == ReplyCode.READY:
                 if self.__playing:
                     try:
@@ -83,8 +84,12 @@ class App:
                 self.reset_melody()
                 success, cmd = protocol.build_command(CommandType.PLAY_INFINITE_TONE, frequency)
                 if success:
-                    self.serial.write(cmd)
-                    self.vc.set_current_frequency(frequency)
+                    if self.__ready_for_next_frequency:
+                        self.serial.write(cmd)
+                        self.vc.set_current_frequency(frequency)
+                        self.__ready_for_next_frequency = False
+                    else:
+                        self.vc.set_status_msg("Уоуоуоуоу! Полегче! Она не может так быстро принимать!")
                 else:
                     self.vc.set_status_msg("Привет, меня зовут БАГ#1!")
             else:
