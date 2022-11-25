@@ -532,7 +532,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="lnlNoteB">
+                 <widget class="QLabel" name="lblNoteB">
                   <property name="font">
                    <font>
                     <family>Liberation Mono</family>

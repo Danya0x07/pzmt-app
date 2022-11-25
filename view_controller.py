@@ -11,6 +11,8 @@ class ViewController(QMainWindow):
     KEYBOARD = {Qt.Key_A: 'C', Qt.Key_W: 'C#', Qt.Key_S: 'D', Qt.Key_E: 'D#', Qt.Key_D: 'E',
                 Qt.Key_F: 'F', Qt.Key_T: 'F#', Qt.Key_Space: '_',
                 Qt.Key_J: 'G', Qt.Key_I: 'G#', Qt.Key_K: 'A', Qt.Key_O: 'A#', Qt.Key_L: 'B'}
+    _NOTE_LBL_STYLE = 'color: rgb(255, 0, 255);'
+    _NOTE_SHARP_LBL_STYLE = 'color: rgb(255, 0, 127);'
 
     def __init__(self, app):
         super().__init__()
@@ -18,6 +20,12 @@ class ViewController(QMainWindow):
         self.app = app
         self.__keys_stack = []
         self.__record_enabled = False
+        self.NOTE_LABELS = {
+            'C': self.lblNoteC, 'C#': self.lblNoteCs, 'D': self.lblNoteD, 'D#': self.lblNoteDs,
+            'E': self.lblNoteE, 'F': self.lblNoteF, 'F#': self.lblNoteFs,
+            'G': self.lblNoteG, 'G#': self.lblNoteGs, 'A': self.lblNoteA, 'A#': self.lblNoteAs,
+            'B': self.lblNoteB
+        }
         self.connect_signals()
         self.lnBeatMs.setEnabled(False)
         self.show()
@@ -112,11 +120,17 @@ class ViewController(QMainWindow):
         key = event.key()
         if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState():
             if key in ViewController.KEYBOARD:
-                note = str(self.spbOctave.value()) * (key != Qt.Key_Space) + ViewController.KEYBOARD[key]
+                note = ViewController.KEYBOARD[key]
+                lbl = self.NOTE_LABELS.get(note, None)
+                note = str(self.spbOctave.value()) * (key != Qt.Key_Space) + note
                 self.app.play_note(note)
                 self.__keys_stack.append(key)
                 if self.__record_enabled:
                     self.app.record(note, self.rdInputHz.isChecked())
+                if '#' in note:
+                    lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE + 'font-weight: bold')
+                else:
+                    lbl.setStyleSheet(self._NOTE_LBL_STYLE + 'font-weight: bold')
             elif key == Qt.Key_G:
                 self.spbOctave.setValue(self.spbOctave.value() - 1)
             elif key == Qt.Key_H:
@@ -130,6 +144,9 @@ class ViewController(QMainWindow):
         if not event.isAutoRepeat() and self.chbEnableKeyboard.checkState() and key in ViewController.KEYBOARD:
             if self.__keys_stack:
                 self.__keys_stack.pop()
+                note = ViewController.KEYBOARD[key]
+                lbl = self.NOTE_LABELS.get(note, None)
+                lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE if '#' in note else self._NOTE_LBL_STYLE)
                 if len(self.__keys_stack) == 0:
                     self.app.stop_playing()
 
