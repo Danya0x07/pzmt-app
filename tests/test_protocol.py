@@ -3,7 +3,6 @@ import protocol as p
 from protocol import VolumeLevel, CommandType, ReplyCode
 
 
-
 class MyTestCase(unittest.TestCase):
     def test_build_command(self):
 
