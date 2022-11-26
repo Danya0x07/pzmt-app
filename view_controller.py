@@ -1,7 +1,13 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+
+
+class AboutMenu(QDialog):
+    def __init__(self):
+        super(AboutMenu, self).__init__()
+        uic.loadUi('about.ui', self)
 
 
 class ViewController(QMainWindow):
@@ -18,6 +24,7 @@ class ViewController(QMainWindow):
         super().__init__()
         uic.loadUi('design.ui', self)
         self.app = app
+        self.about_menu = AboutMenu()
         self.__keys_stack = []
         self.__record_enabled = False
         self.NOTE_LABELS = {
@@ -117,7 +124,7 @@ class ViewController(QMainWindow):
         self.app.save_file(filename)
 
     def __actShowAboutTriggered(self):
-        print("__actShowAboutTriggered")
+        self.about_menu.show()
 
     def keyPressEvent(self, event):
         super().keyPressEvent(event)
