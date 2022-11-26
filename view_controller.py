@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
+from protocol import VolumeLevel
 
 class AboutMenu(QDialog):
     def __init__(self):
@@ -105,14 +106,13 @@ class ViewController(QMainWindow):
         self.setFocus()
 
     def __btnVolumeSwitchClicked(self):
-        if self.btnVolumeSwitch.text() == 'Повысить громкость':
-            if self.app.toggle_volume(1) == 0:
-                self.btnVolumeSwitch.setText('Понизить громкость')
-                self.btnVolumeSwitch.setIcon(QIcon('assets/volumeDown.ico'))
-        elif self.btnVolumeSwitch.text() == 'Понизить громкость':
-            if self.app.toggle_volume(0) == 1:
-                self.btnVolumeSwitch.setText('Повысить громкость')
-                self.btnVolumeSwitch.setIcon(QIcon('assets/volumeUp.ico'))
+        new_volume = self.app.toggle_volume()
+        if new_volume == VolumeLevel.HIGH:
+            self.btnVolumeSwitch.setText('Понизить громкость')
+            self.btnVolumeSwitch.setIcon(QIcon('assets/volumeDown.ico'))
+        else:
+            self.btnVolumeSwitch.setText('Повысить громкость')
+            self.btnVolumeSwitch.setIcon(QIcon('assets/volumeUp.ico'))
 
     def __chbEnableKeyboardStateChanged(self):
         self.__record_enabled = False

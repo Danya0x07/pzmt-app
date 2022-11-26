@@ -1,3 +1,9 @@
+# Copyright (C) 2022 Danya0x07 & dmPetrov
+#     The "MeanderSounds" project group.
+#
+# This software is a part of PiezoMaestro project.
+#
+
 import sys
 
 from PyQt5.QtWidgets import QApplication

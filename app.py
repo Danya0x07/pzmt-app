@@ -14,6 +14,7 @@ class App:
         self.serial = SerialPort(self)
         self.reset_melody()
         self.__ready_for_next_frequency = True
+        self.__volume_level = VolumeLevel.LOW
 
     def update_available_ports(self):
         self.vc.set_available_ports_list(SerialPort.get_available_ports())
@@ -224,14 +225,13 @@ class App:
             self.vc.set_raw_frequencies(raw_frequencies)
             self.vc.set_raw_durations(raw_durations)
 
-    def toggle_volume(self, volume):
+    def toggle_volume(self):
         if self.connection_established():
-            success, cmd = protocol.build_command(CommandType.SET_VOLUME, volume)
-            if success and VolumeLevel.HIGH:
+            new_volume = VolumeLevel.HIGH if self.__volume_level == VolumeLevel.LOW else VolumeLevel.LOW
+            success, cmd = protocol.build_command(CommandType.SET_VOLUME, new_volume)
+            if success:
                 self.serial.write(cmd)
-                return VolumeLevel.LOW
-            if success and VolumeLevel.LOW:
-                self.serial.write(cmd)
-                return VolumeLevel.HIGH
+                self.__volume_level = new_volume
+                return self.__volume_level
         else:
             self.vc.set_status_msg("Куда слать то? Порт закрыт...")
