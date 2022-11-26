@@ -105,7 +105,14 @@ class ViewController(QMainWindow):
         self.setFocus()
 
     def __btnVolumeSwitchClicked(self):
-        print("__btnVolumeSwitchClicked")
+        if self.btnVolumeSwitch.text() == 'Повысить громкость':
+            if self.app.toggle_volume(1) == 0:
+                self.btnVolumeSwitch.setText('Понизить громкость')
+                self.btnVolumeSwitch.setIcon(QIcon('assets/volumeDown.ico'))
+        elif self.btnVolumeSwitch.text() == 'Понизить громкость':
+            if self.app.toggle_volume(0) == 1:
+                self.btnVolumeSwitch.setText('Повысить громкость')
+                self.btnVolumeSwitch.setIcon(QIcon('assets/volumeUp.ico'))
 
     def __chbEnableKeyboardStateChanged(self):
         self.__record_enabled = False

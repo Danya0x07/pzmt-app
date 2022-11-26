@@ -4,7 +4,7 @@ from view_controller import ViewController
 from serial_port import SerialPort
 import parser
 import protocol
-from protocol import CommandType, ReplyCode
+from protocol import CommandType, ReplyCode, VolumeLevel
 
 
 class App:
@@ -223,3 +223,15 @@ class App:
         else:
             self.vc.set_raw_frequencies(raw_frequencies)
             self.vc.set_raw_durations(raw_durations)
+
+    def toggle_volume(self, volume):
+        if self.connection_established():
+            success, cmd = protocol.build_command(CommandType.SET_VOLUME, volume)
+            if success and VolumeLevel.HIGH:
+                self.serial.write(cmd)
+                return VolumeLevel.LOW
+            if success and VolumeLevel.LOW:
+                self.serial.write(cmd)
+                return VolumeLevel.HIGH
+        else:
+            self.vc.set_status_msg("Куда слать то? Порт закрыт...")
