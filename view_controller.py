@@ -1,5 +1,5 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 
@@ -107,10 +107,14 @@ class ViewController(QMainWindow):
         self.setFocus()
 
     def __actOpenFileTriggered(self):
-        print("__actOpenFileTriggered")
+        filename, _ = QFileDialog.getOpenFileName(self, "Загрузить мелодию", filter='JSON Files (*.json)')
+        self.app.load_file(filename)
 
     def __actSaveFileTriggered(self):
-        print("__actSaveFileTriggered")
+        filename, _ = QFileDialog.getSaveFileName(self, "Загрузить мелодию", filter='JSON Files (*.json)')
+        if not filename.endswith('.json'):
+            filename += '.json'
+        self.app.save_file(filename)
 
     def __actShowAboutTriggered(self):
         print("__actShowAboutTriggered")
@@ -127,10 +131,11 @@ class ViewController(QMainWindow):
                 self.__keys_stack.append(key)
                 if self.__record_enabled:
                     self.app.record(note, self.rdInputHz.isChecked())
-                if '#' in note:
-                    lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE + 'font-weight: bold')
-                else:
-                    lbl.setStyleSheet(self._NOTE_LBL_STYLE + 'font-weight: bold')
+                if lbl:
+                    if '#' in note:
+                        lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE + 'font-weight: bold')
+                    else:
+                        lbl.setStyleSheet(self._NOTE_LBL_STYLE + 'font-weight: bold')
             elif key == Qt.Key_G:
                 self.spbOctave.setValue(self.spbOctave.value() - 1)
             elif key == Qt.Key_H:
@@ -146,7 +151,8 @@ class ViewController(QMainWindow):
                 self.__keys_stack.pop()
                 note = ViewController.KEYBOARD[key]
                 lbl = self.NOTE_LABELS.get(note, None)
-                lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE if '#' in note else self._NOTE_LBL_STYLE)
+                if lbl:
+                    lbl.setStyleSheet(self._NOTE_SHARP_LBL_STYLE if '#' in note else self._NOTE_LBL_STYLE)
                 if len(self.__keys_stack) == 0:
                     self.app.stop_playing()
 
@@ -162,6 +168,9 @@ class ViewController(QMainWindow):
 
     def set_raw_frequencies(self, txt):
         self.txtFrequencies.setPlainText(txt)
+
+    def set_raw_durations(self, txt):
+        self.txtDurations.setPlainText(txt)
 
     def get_selected_port_name(self):
         return self.cbbSerialPortName.currentText()

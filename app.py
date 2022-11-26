@@ -1,3 +1,5 @@
+import json
+
 from view_controller import ViewController
 from serial_port import SerialPort
 import parser
@@ -199,4 +201,25 @@ class App:
             sequence.pop()
         self.vc.set_raw_frequencies(' '.join(sequence))
 
+    def save_file(self, filename):
+        raw_frequencies = self.vc.get_raw_frequencies()
+        raw_durations = self.vc.get_raw_durations()
+        frequencies = parser.split_sequence(raw_frequencies)
+        frequencies = ', '.join(frequencies)
+        durations = parser.split_sequence(raw_durations)
+        durations = ', '.join(durations)
+        data = {'raw': [raw_frequencies, raw_durations], 'array': [frequencies, durations]}
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=4)
 
+    def load_file(self, filename):
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        try:
+            raw_frequencies = data['raw'][0]
+            raw_durations = data['raw'][1]
+        except (KeyError, IndexError):
+            self.vc.set_status_msg('Битый файл, однако')
+        else:
+            self.vc.set_raw_frequencies(raw_frequencies)
+            self.vc.set_raw_durations(raw_durations)
